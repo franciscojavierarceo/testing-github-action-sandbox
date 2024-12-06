@@ -73,4 +73,5 @@ jobs:
           architecture: x64
       - name: Build wheels
         run: |
+          pip install setuptools-scm
           python test.py
