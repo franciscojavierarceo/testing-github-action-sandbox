@@ -73,6 +73,7 @@ jobs:
           architecture: x64
       - name: Build wheels
         run: |
-          git tag -l
           pip install setuptools-scm
+          git fetch --tags
+          git tag -l
           python test.py
