@@ -43,7 +43,7 @@ jobs:
             echo "Using provided highest semver version: ${{ inputs.highest_semver_tag }}"
             echo "::set-output name=highest_semver_tag::${{ inputs.highest_semver_tag }}"
           else
-            echo "No release version provided. Falling back to infra/scripts/setup-common-functions.sh."
+            echo "No release version provided. Falling back to setup-common-functions.sh."
             source setup-common-functions.sh
             SEMVER_REGEX='^v[0-9]+\.[0-9]+\.[0-9]+(-([0-9A-Za-z-]+(\.[0-9A-Za-z-]+)*))?$'
             if echo "${RELEASE_VERSION}" | grep -P "$SEMVER_REGEX" &>/dev/null ; then
