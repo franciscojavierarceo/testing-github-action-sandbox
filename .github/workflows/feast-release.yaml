@@ -75,5 +75,6 @@ jobs:
         run: |
           pip install setuptools-scm
           git fetch --tags
+          git checkout v1.0.0
           git tag -l
           python test.py
