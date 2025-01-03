@@ -1,0 +1,49 @@
+name: Test Milvus Container
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  test-milvus:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Download Milvus Docker Compose
+        run: |
+          wget https://github.com/milvus-io/milvus/releases/download/v2.4.20/milvus-standalone-docker-compose.yml -O docker-compose.yml
+          docker compose up -d
+
+      - name: Wait for Milvus Health Checks
+        run: |
+          # Wait for standalone healthcheck
+          for i in {1..10}; do
+            if curl -f http://localhost:9091/healthz; then
+              echo "Milvus standalone is healthy!"
+              exit 0
+            else
+              echo "Waiting for Milvus standalone..."
+              sleep 10
+            fi
+          done
+          echo "Milvus standalone did not become healthy in time!" && exit 1
+
+      - name: Verify Milvus is Running
+        run: |
+          # Check if Milvus standalone is listening on the expected port
+          if nc -zv localhost 19530; then
+            echo "Milvus standalone is running on port 19530."
+          else
+            echo "Milvus standalone is not running on port 19530!" && exit 1
+          fi
+
+      - name: Cleanup
+        if: always()
+        run: |
+          docker compose down
+
