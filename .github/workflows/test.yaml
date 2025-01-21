@@ -1,4 +1,4 @@
-name: Multi-job Workflow
+GITHUB_OUTPUTname: Multi-job Workflow
 
 on:
   push:
@@ -11,7 +11,7 @@ jobs:
     steps:
       - name: Set output variable
         id: set-output-step
-        run: echo "my_variable=hello world" >> $GITHUB_ENV
+        run: echo "my_variable=hello world" >> $GITHUB_OUTPUT
 
   job2:
     runs-on: ubuntu-latest
