@@ -1,0 +1,21 @@
+name: Multi-job Workflow
+
+on:
+  push:
+
+jobs:
+  job1:
+    runs-on: ubuntu-latest
+    outputs:
+      my_output: ${{ steps.set-output-step.outputs.my_variable }}
+    steps:
+      - name: Set output variable
+        id: set-output-step
+        run: echo "my_variable=hello world" >> $GITHUB_ENV
+
+  job2:
+    runs-on: ubuntu-latest
+    needs: job1
+    steps:
+      - name: Use output from job1
+        run: echo "The value from job1 is ${{ needs.job1.outputs.my_output }}"
