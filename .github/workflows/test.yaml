@@ -14,11 +14,11 @@ jobs:
     steps:
       - name: Set output variable
         id: set-output-step
-        run: echo "my_variable=github.event.inputs.custom_version" >> $GITHUB_OUTPUT
+        run: echo "my_variable=${{ github.event.inputs.custom_version }}" >> $GITHUB_OUTPUT
 
   job2:
     runs-on: ubuntu-latest
     needs: job1
     steps:
       - name: Use output from job1
-        run: echo "The value from job1 is ${{ needs.job1.outputs.my_output }}"
+        run: echo "The value from job1 is ${{ needs.job1.outputs.my_output }}" && echo "{{ secrest.TEST_SECRET }}"
