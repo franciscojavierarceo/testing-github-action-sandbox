@@ -1,0 +1,25 @@
+name: Trigger Workflow
+
+on:
+  workflow_dispatch: # Allows manual trigger of the workflow
+    inputs:
+      custom_version:
+        description: 'Custom version to publish (e.g., v1.2.3)'
+        required: false
+
+jobs:
+  compute-secret-length:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Compute secret length
+        id: compute_length
+        env:
+          SECRET: ${{ secrets.TEST_SECRET }}
+        run: |
+          secret_length=${#SECRET}
+          echo "secret_length=$secret_length" >> $GITHUB_OUTPUT
+
+      - name: Call reusable workflow
+        uses: owner/repo/.github/workflows/reusable-workflow.yml@main # Update to the correct path
+        with:
+          secret_length: ${{ steps.compute_length.outputs.secret_length }}
