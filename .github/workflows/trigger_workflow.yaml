@@ -8,18 +8,21 @@ on:
         required: false
 
 jobs:
-  compute-secret-length:
+  compute-and-call:
     runs-on: ubuntu-latest
+    outputs:
+      secret_length: ${{ steps.compute_length.outputs.secret_length }}
     steps:
       - name: Compute secret length
         id: compute_length
         env:
-          SECRET: ${{ secrets.TEST_SECRET }}
+          SECRET: ${{ secrets.MY_SECRET }}
         run: |
           secret_length=${#SECRET}
           echo "secret_length=$secret_length" >> $GITHUB_OUTPUT
 
-      - name: Call reusable workflow
-        uses: owner/repo/.github/workflows/reusable-workflow.yml@main # Update to the correct path
-        with:
-          secret_length: ${{ steps.compute_length.outputs.secret_length }}
+  reusable-workflow:
+    needs: compute-and-call
+    uses: .github/workflows/reusable-workflow.yml
+    with:
+      secret_length: ${{ needs.compute-and-call.outputs.secret_length }}
