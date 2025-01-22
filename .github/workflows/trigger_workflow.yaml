@@ -23,6 +23,6 @@ jobs:
 
   reusable-workflow:
     needs: compute-and-call
-    uses: .github/workflows/reusable-workflow.yml
+    uses: .github/workflows/reusable-workflow.yml@main
     with:
       secret_length: ${{ needs.compute-and-call.outputs.secret_length }}
