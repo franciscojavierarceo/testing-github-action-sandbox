@@ -1,0 +1,15 @@
+name: Reusable Workflow
+
+on:
+  workflow_call:
+    inputs:
+      secret_length:
+        required: true
+        type: string
+
+jobs:
+  log-secret-length:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Log secret length
+        run: echo "The length of the secret is ${{ inputs.secret_length }}"
