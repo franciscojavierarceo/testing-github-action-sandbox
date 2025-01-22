@@ -16,7 +16,7 @@ jobs:
       - name: Compute secret length
         id: compute_length
         env:
-          SECRET: ${{ secrets.MY_SECRET }}
+          SECRET: ${{ secrets.TEST_SECRET }}
         run: |
           secret_length=${#SECRET}
           echo "secret_length=$secret_length" >> $GITHUB_OUTPUT
