@@ -23,4 +23,8 @@ jobs:
       - name: Use output from job1
         run: echo "The value from job1 is ${{ needs.job1.outputs.my_output }}" 
       - name: Test logging secret
-        run: echo "the secret value is ${{ secrets.TEST_SECRET }}"
+        env:
+          SECRET: ${{ secrets.TEST_SECRET }}
+        run: |
+          secret_length=${#SECRET}
+          echo "the length of the secret value is $secret_length"
