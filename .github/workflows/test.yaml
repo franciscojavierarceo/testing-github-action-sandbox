@@ -21,4 +21,6 @@ jobs:
     needs: job1
     steps:
       - name: Use output from job1
-        run: echo "The value from job1 is ${{ needs.job1.outputs.my_output }}" && echo "{{ secrets.TEST_SECRET }}"
+        run: echo "The value from job1 is ${{ needs.job1.outputs.my_output }}" 
+      - name: Test logging secret
+        run: echo "the secret value is ${{ secrets.TEST_SECRET }}"
